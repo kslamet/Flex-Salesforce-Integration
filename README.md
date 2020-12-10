@@ -1,8 +1,9 @@
 # Flex-SFDC-Integration
 
-This repo contains everything needed to replicate an integration between Twilio Flex and Salesforce in voice IVR scenario. A recorded video of this is available on the following [link] (https://drive.google.com/file/d/1OQblG6YlE6r6I45NtIEzRc5dfsqSc5ij/view?usp=sharing). The scenario slide is available on this [link] (https://docs.google.com/presentation/d/1W4iA7saxJiU2aAHzrc2mtk0aW9EfYJ1XFgcUEdepMFk/edit?usp=sharing).
+This repo contains everything needed to replicate an integration between Twilio Flex and Salesforce in voice IVR scenario. A recorded video of this is available on the following [link](https://drive.google.com/file/d/1OQblG6YlE6r6I45NtIEzRc5dfsqSc5ij/view?usp=sharing). The scenario slide is available on this [link](https://docs.google.com/presentation/d/1W4iA7saxJiU2aAHzrc2mtk0aW9EfYJ1XFgcUEdepMFk/edit?usp=sharing).
 
 The illustration of the scenario is as follows:
+
 <img src="https://aqua-cichlid-2234.twil.io/assets/Scenario.png/>
 
 The demo shows how our customer connects with our fictional insurance company, starting as an unknown customer submitting a new case, calling back in to inquire on existing case, and finally calling in about a totally different case.
@@ -53,7 +54,7 @@ The scenario will start from a new unknown customer dialing into the hotline. Th
 
 ### 6. Reset Salesforce Security Token
 
-For Twilio Functions to authenticate with Salesforce, a security token is required. You can follow this [guide] (https://help.salesforce.com/articleView?id=user_security_token.htm&type=5) to reset your security token, and you will receive the token via email. This security token is required in the environment variables later on.
+For Twilio Functions to authenticate with Salesforce, a security token is required. You can follow this [guide](https://help.salesforce.com/articleView?id=user_security_token.htm&type=5) to reset your security token, and you will receive the token via email. This security token is required in the environment variables later on.
 
 ### 7. Upload Twilio Functions
 
@@ -97,5 +98,5 @@ Additionally, the Flex Agent is also able to make outbound call back to the cust
 
 ## Resources
 
-Recorded video of the demo: [recording link] (https://drive.google.com/file/d/1OQblG6YlE6r6I45NtIEzRc5dfsqSc5ij/view?usp=sharing)
-Scenario slide: [slide link] (https://docs.google.com/presentation/d/1W4iA7saxJiU2aAHzrc2mtk0aW9EfYJ1XFgcUEdepMFk/edit?usp=sharing)
+Recorded video of the demo: [recording link](https://drive.google.com/file/d/1OQblG6YlE6r6I45NtIEzRc5dfsqSc5ij/view?usp=sharing)
+Scenario slide: [slide link](https://docs.google.com/presentation/d/1W4iA7saxJiU2aAHzrc2mtk0aW9EfYJ1XFgcUEdepMFk/edit?usp=sharing)
