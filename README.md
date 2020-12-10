@@ -4,7 +4,7 @@ This repo contains everything needed to replicate an integration between Twilio 
 
 The illustration of the scenario is as follows:
 
-<img src="https://aqua-cichlid-2234.twil.io/assets/Scenario.png/>
+<img src="https://aqua-cichlid-2234.twil.io/assets/Scenario.png"/>
 
 The demo shows how our customer connects with our fictional insurance company, starting as an unknown customer submitting a new case, calling back in to inquire on existing case, and finally calling in about a totally different case.
 
@@ -65,7 +65,7 @@ The variables are:
 | Env Name  | Description |
 | ------------- | ------------- |
 | USERNAME | Your Salesforce Username which you registered for the Salesforce Developer Account.  |
-| PASSWORD |  Important: This is NOT just your password. This is the concatenated string of your password followed by Salesforce Token. If you don't have your Salesforce token, you can reset it per [this] (https://help.salesforce.com/articleView?id=user_security_token.htm&type=5) instructions. |
+| PASSWORD |  Important: This is NOT just your password. This is the concatenated string of your password followed by Salesforce Token. If you don't have your Salesforce token, you can reset it per [this](https://help.salesforce.com/articleView?id=user_security_token.htm&type=5) instructions. |
 
 With that we can now deploy our functions. First make sure you are logged into the right account. Either run `twilio login` if you haven't logged into the account before or run `twilio profiles:list` and make sure if your active account is the account you want to use. If you are not using the right account you can switch account by running `twilio profiles:use <your profile name>`.
 
@@ -90,13 +90,18 @@ Similar to [here](https://www.twilio.com/docs/studio/tutorials/how-to-forward-ca
 ## Demo Time!
 
 At this point you should be all set. log into your Salesforce account, select the Service Console app, open the flex plugin in the CTI adapter and mark yourself as online. We will be making 3 inbound phone calls to Flex. 
-The first inbound call to the phone number will directly connect to an agent, and a new 'Unknown Customer' record will be created and screenpopped. Update the customer's name, and create a new case linked to the customer record. Hangup the call. IMPORTANT NOTE: it takes some time for the temporary contact record to be created in Salesforce and to be searchable on Salesforce Global Search. Take time to explain the contact record creation happening behind the scene before picking up the task. 
-The second inbound call will then do a data dip, and ask the customer if the call is about the previously created case. Click 1 (yes), and the call will connect to Flex agent, and the previously created case will be screenpopped.
-The third inbound call will again ask about the previously created case. Click 2 (no), and after the cue, click 4 for claims related case (feel free to edit the created case details as required). A new case will be created, and customer will be connected to agent relating to the newly created case from IVR.
+
+First inbound call to the phone number will directly connect to an agent, and a new 'Unknown Customer' record will be created and screenpopped. Update the customer's name, and create a new case linked to the customer record. Hangup the call.
+IMPORTANT NOTE: it takes some time for the temporary contact record to be created in Salesforce and to be searchable on Salesforce Global Search. Take time to explain the contact record creation happening behind the scene before picking up the task. 
+
+Second inbound call will do a data dip, and ask the customer if the call is about the previously created case. Click 1 (yes), and the call will connect to Flex agent, and the previously created case will be screenpopped.
+
+Third inbound call will again ask about the previously created case. Click 2 (no), and after the cue, click 4 for claims related case (feel free to edit the created case details as required). A new case will be created, and customer will be connected to agent relating to the newly created case from IVR.
 
 Additionally, the Flex Agent is also able to make outbound call back to the customer (for example: if the call dropped) by using click to dial on the customer phone number on Salesforce.
 
 ## Resources
 
 Recorded video of the demo: [recording link](https://drive.google.com/file/d/1OQblG6YlE6r6I45NtIEzRc5dfsqSc5ij/view?usp=sharing)
+
 Scenario slide: [slide link](https://docs.google.com/presentation/d/1W4iA7saxJiU2aAHzrc2mtk0aW9EfYJ1XFgcUEdepMFk/edit?usp=sharing)
