@@ -1,0 +1,538 @@
+{
+    "description": "sfdc_callFlow",
+    "states": [
+      {
+        "name": "Trigger",
+        "type": "trigger",
+        "transitions": [
+          {
+            "event": "incomingMessage"
+          },
+          {
+            "next": "queryOrCreateContact",
+            "event": "incomingCall"
+          },
+          {
+            "event": "incomingRequest"
+          }
+        ],
+        "properties": {
+          "offset": {
+            "x": 0,
+            "y": 0
+          }
+        }
+      },
+      {
+        "name": "IfContactExists",
+        "type": "split-based-on",
+        "transitions": [
+          {
+            "event": "noMatch"
+          },
+          {
+            "next": "getLatestCase",
+            "event": "match",
+            "conditions": [
+              {
+                "friendly_name": "yes",
+                "arguments": [
+                  "{{widgets.queryOrCreateContact.parsed.exist}}"
+                ],
+                "type": "equal_to",
+                "value": "yes"
+              }
+            ]
+          },
+          {
+            "next": "ConnectUnknownCustomer",
+            "event": "match",
+            "conditions": [
+              {
+                "friendly_name": "no",
+                "arguments": [
+                  "{{widgets.queryOrCreateContact.parsed.exist}}"
+                ],
+                "type": "equal_to",
+                "value": "no"
+              }
+            ]
+          }
+        ],
+        "properties": {
+          "input": "{{widgets.queryOrCreateContact.parsed.exist}}",
+          "offset": {
+            "x": 160,
+            "y": 520
+          }
+        }
+      },
+      {
+        "name": "NewCase_Customer",
+        "type": "gather-input-on-call",
+        "transitions": [
+          {
+            "next": "split_2",
+            "event": "keypress"
+          },
+          {
+            "event": "speech"
+          },
+          {
+            "event": "timeout"
+          }
+        ],
+        "properties": {
+          "voice": "alice",
+          "speech_timeout": "auto",
+          "offset": {
+            "x": 460,
+            "y": 1290
+          },
+          "loop": 2,
+          "finish_on_key": "#",
+          "say": "Hi {{widgets.queryOrCreateContact.parsed.firstName}}. Please press 1 for new policies, 2 for existing policies, 3 for billing, 4 for claims.",
+          "language": "en-US",
+          "stop_gather": true,
+          "gather_language": "en",
+          "profanity_filter": "true",
+          "timeout": 5
+        }
+      },
+      {
+        "name": "split_2",
+        "type": "split-based-on",
+        "transitions": [
+          {
+            "event": "noMatch"
+          },
+          {
+            "next": "newCaseNewPolicy",
+            "event": "match",
+            "conditions": [
+              {
+                "friendly_name": "1 New Policies",
+                "arguments": [
+                  "{{widgets.NewCase_Customer.Digits}}"
+                ],
+                "type": "equal_to",
+                "value": "1"
+              }
+            ]
+          },
+          {
+            "next": "newCaseExistingPolicy",
+            "event": "match",
+            "conditions": [
+              {
+                "friendly_name": "2 Existing Policies",
+                "arguments": [
+                  "{{widgets.NewCase_Customer.Digits}}"
+                ],
+                "type": "equal_to",
+                "value": "2"
+              }
+            ]
+          },
+          {
+            "next": "newCaseBilling",
+            "event": "match",
+            "conditions": [
+              {
+                "friendly_name": "3 Billing",
+                "arguments": [
+                  "{{widgets.NewCase_Customer.Digits}}"
+                ],
+                "type": "equal_to",
+                "value": "3"
+              }
+            ]
+          },
+          {
+            "next": "newCaseClaims",
+            "event": "match",
+            "conditions": [
+              {
+                "friendly_name": "4 Claims",
+                "arguments": [
+                  "{{widgets.NewCase_Customer.Digits}}"
+                ],
+                "type": "equal_to",
+                "value": "4"
+              }
+            ]
+          }
+        ],
+        "properties": {
+          "input": "{{widgets.NewCase_Customer.Digits}}",
+          "offset": {
+            "x": 400,
+            "y": 1550
+          }
+        }
+      },
+      {
+        "name": "newCaseNewPolicy",
+        "type": "run-function",
+        "transitions": [
+          {
+            "event": "success"
+          },
+          {
+            "event": "fail"
+          }
+        ],
+        "properties": {
+          "service_sid": "ZS331c73c1bff98c35873df35f708b3a08",
+          "environment_sid": "ZE48aca5d400a11123f3a8c2c05866337a",
+          "offset": {
+            "x": 270,
+            "y": 1790
+          },
+          "function_sid": "ZH9c935babc59240569c0d9cc272ea4f8f",
+          "url": "https://shivsfdc-4061.twil.io/newCaseNewPolicy"
+        }
+      },
+      {
+        "name": "newCaseExistingPolicy",
+        "type": "run-function",
+        "transitions": [
+          {
+            "event": "success"
+          },
+          {
+            "event": "fail"
+          }
+        ],
+        "properties": {
+          "service_sid": "ZS331c73c1bff98c35873df35f708b3a08",
+          "environment_sid": "ZE48aca5d400a11123f3a8c2c05866337a",
+          "offset": {
+            "x": 650,
+            "y": 1790
+          },
+          "function_sid": "ZH306c8188a7793becf5dbef4face1ce8f",
+          "url": "https://shivsfdc-4061.twil.io/newCaseExistingPolicy"
+        }
+      },
+      {
+        "name": "newCaseBilling",
+        "type": "run-function",
+        "transitions": [
+          {
+            "event": "success"
+          },
+          {
+            "event": "fail"
+          }
+        ],
+        "properties": {
+          "service_sid": "ZS331c73c1bff98c35873df35f708b3a08",
+          "environment_sid": "ZE48aca5d400a11123f3a8c2c05866337a",
+          "offset": {
+            "x": 1000,
+            "y": 1790
+          },
+          "function_sid": "ZH7c69d3762c9cfb0d8047c9c548240039",
+          "url": "https://shivsfdc-4061.twil.io/newCaseBilling"
+        }
+      },
+      {
+        "name": "newCaseClaims",
+        "type": "run-function",
+        "transitions": [
+          {
+            "next": "newCaseCreated",
+            "event": "success"
+          },
+          {
+            "event": "fail"
+          }
+        ],
+        "properties": {
+          "service_sid": "ZSaab4fd3cb6213f9676ac508a7d6cfe3f",
+          "environment_sid": "ZE8b31c303c88b2b7d9a1dd66cf6cf541c",
+          "offset": {
+            "x": 1390,
+            "y": 1790
+          },
+          "function_sid": "ZHb202bfa66e49319c0a2513f4350acd6b",
+          "parameters": [
+            {
+              "value": "{{widgets.queryOrCreateContact.parsed.contactId}}",
+              "key": "contactId"
+            }
+          ],
+          "url": "https://salesforcefunctions-4623-dev.twil.io/createNewCase"
+        }
+      },
+      {
+        "name": "ScreenpopCaseToAgent",
+        "type": "send-to-flex",
+        "transitions": [
+          {
+            "event": "callComplete"
+          },
+          {
+            "event": "failedToEnqueue"
+          },
+          {
+            "event": "callFailure"
+          }
+        ],
+        "properties": {
+          "offset": {
+            "x": 1420,
+            "y": 2360
+          },
+          "workflow": "WWeccf977d1578b856caac858f6c0927e4",
+          "channel": "TC9df11e16a03d46cc9f0c888bc60236d8",
+          "attributes": "{\n\"type\":\"inbound\",\n\"sfdcSearchString\":\"{{widgets.newCaseClaims.parsed.param}}\"\n}"
+        }
+      },
+      {
+        "name": "newCaseCreated",
+        "type": "say-play",
+        "transitions": [
+          {
+            "next": "ScreenpopCaseToAgent",
+            "event": "audioComplete"
+          }
+        ],
+        "properties": {
+          "voice": "alice",
+          "offset": {
+            "x": 1420,
+            "y": 2080
+          },
+          "loop": 1,
+          "say": "Your case ID is {{widgets.newCaseClaims.parsed.param}}. Please wait while we connect you to agent.",
+          "language": "en-US"
+        }
+      },
+      {
+        "name": "queryOrCreateContact",
+        "type": "run-function",
+        "transitions": [
+          {
+            "next": "IfContactExists",
+            "event": "success"
+          },
+          {
+            "event": "fail"
+          }
+        ],
+        "properties": {
+          "service_sid": "ZSaab4fd3cb6213f9676ac508a7d6cfe3f",
+          "environment_sid": "ZE8b31c303c88b2b7d9a1dd66cf6cf541c",
+          "offset": {
+            "x": 180,
+            "y": 220
+          },
+          "function_sid": "ZH83244bdea067914740d219a08855d502",
+          "parameters": [
+            {
+              "value": "{{trigger.call.From}}",
+              "key": "phoneNum"
+            }
+          ],
+          "url": "https://salesforcefunctions-4623-dev.twil.io/queryOrCreateContact"
+        }
+      },
+      {
+        "name": "ScreenpopContactToAgent",
+        "type": "send-to-flex",
+        "transitions": [
+          {
+            "event": "callComplete"
+          },
+          {
+            "event": "failedToEnqueue"
+          },
+          {
+            "event": "callFailure"
+          }
+        ],
+        "properties": {
+          "offset": {
+            "x": -390,
+            "y": 990
+          },
+          "workflow": "WWeccf977d1578b856caac858f6c0927e4",
+          "channel": "TC9df11e16a03d46cc9f0c888bc60236d8",
+          "attributes": "{\n\"type\":\"inbound\",\n\"sfdcSearchString\":\"{{widgets.queryOrCreateContact.parsed.phoneNum}}\"\n}"
+        }
+      },
+      {
+        "name": "ConnectUnknownCustomer",
+        "type": "say-play",
+        "transitions": [
+          {
+            "next": "ScreenpopContactToAgent",
+            "event": "audioComplete"
+          }
+        ],
+        "properties": {
+          "offset": {
+            "x": -390,
+            "y": 770
+          },
+          "loop": 1,
+          "say": "Hi customer. Please wait while we connect you to an agent."
+        }
+      },
+      {
+        "name": "Split_New_Or_Existing",
+        "type": "split-based-on",
+        "transitions": [
+          {
+            "event": "noMatch"
+          },
+          {
+            "next": "ConnectToAgentAboutCase",
+            "event": "match",
+            "conditions": [
+              {
+                "friendly_name": "1 = Existing Case",
+                "arguments": [
+                  "{{widgets.verifyCase.Digits}}"
+                ],
+                "type": "equal_to",
+                "value": "1"
+              }
+            ]
+          },
+          {
+            "next": "NewCase_Customer",
+            "event": "match",
+            "conditions": [
+              {
+                "friendly_name": "2 = New Case",
+                "arguments": [
+                  "{{widgets.verifyCase.Digits}}"
+                ],
+                "type": "equal_to",
+                "value": "2"
+              }
+            ]
+          }
+        ],
+        "properties": {
+          "input": "{{widgets.verifyCase.Digits}}",
+          "offset": {
+            "x": -50,
+            "y": 1290
+          }
+        }
+      },
+      {
+        "name": "getLatestCase",
+        "type": "run-function",
+        "transitions": [
+          {
+            "next": "verifyCase",
+            "event": "success"
+          },
+          {
+            "event": "fail"
+          }
+        ],
+        "properties": {
+          "service_sid": "ZSaab4fd3cb6213f9676ac508a7d6cfe3f",
+          "environment_sid": "ZE8b31c303c88b2b7d9a1dd66cf6cf541c",
+          "offset": {
+            "x": 160,
+            "y": 770
+          },
+          "function_sid": "ZH696bf7aabda8e9671b4a9b64c9be610d",
+          "parameters": [
+            {
+              "value": "{{widgets.queryOrCreateContact.parsed.contactId}}",
+              "key": "contactId"
+            }
+          ],
+          "url": "https://salesforcefunctions-4623-dev.twil.io/queryExistingCase"
+        }
+      },
+      {
+        "name": "ScreenpopCaseToAgent2",
+        "type": "send-to-flex",
+        "transitions": [
+          {
+            "event": "callComplete"
+          },
+          {
+            "event": "failedToEnqueue"
+          },
+          {
+            "event": "callFailure"
+          }
+        ],
+        "properties": {
+          "offset": {
+            "x": -350,
+            "y": 1910
+          },
+          "workflow": "WWeccf977d1578b856caac858f6c0927e4",
+          "channel": "TC9df11e16a03d46cc9f0c888bc60236d8",
+          "attributes": "{\n\"type\":\"inbound\",\n\"sfdcSearchString\":\"{{widgets.getLatestCase.parsed.caseNumber}}\"\n}"
+        }
+      },
+      {
+        "name": "verifyCase",
+        "type": "gather-input-on-call",
+        "transitions": [
+          {
+            "next": "Split_New_Or_Existing",
+            "event": "keypress"
+          },
+          {
+            "event": "speech"
+          },
+          {
+            "event": "timeout"
+          }
+        ],
+        "properties": {
+          "voice": "alice",
+          "speech_timeout": "auto",
+          "offset": {
+            "x": 170,
+            "y": 990
+          },
+          "loop": 2,
+          "finish_on_key": "#",
+          "say": "Hi {{widgets.queryOrCreateContact.parsed.firstName}}! Are you calling regarding case number {{widgets.getLatestCase.parsed.caseNumber}} , about {{widgets.getLatestCase.parsed.subject}}? Press 1 for yes, 2 for no.",
+          "language": "en-US",
+          "stop_gather": true,
+          "gather_language": "en",
+          "profanity_filter": "true",
+          "timeout": 5
+        }
+      },
+      {
+        "name": "ConnectToAgentAboutCase",
+        "type": "say-play",
+        "transitions": [
+          {
+            "next": "ScreenpopCaseToAgent2",
+            "event": "audioComplete"
+          }
+        ],
+        "properties": {
+          "voice": "alice",
+          "offset": {
+            "x": -350,
+            "y": 1660
+          },
+          "loop": 1,
+          "say": "We are now connecting you to agent about case number {{widgets.getLatestCase.parsed.caseNumber}}. Please wait.",
+          "language": "en-US"
+        }
+      }
+    ],
+    "initial_state": "Trigger",
+    "flags": {
+      "allow_concurrent_calls": true
+    }
+  }
