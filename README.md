@@ -1,6 +1,6 @@
 # Flex-SFDC-Integration
 
-This repo contains everything needed to replicate an integration between Twilio Flex and Salesforce in voice IVR scenario. A recorded video of this is available on the following [link](https://drive.google.com/file/d/1OQblG6YlE6r6I45NtIEzRc5dfsqSc5ij/view?usp=sharing). The scenario slide is available on this [link](https://docs.google.com/presentation/d/1W4iA7saxJiU2aAHzrc2mtk0aW9EfYJ1XFgcUEdepMFk/edit?usp=sharing).
+This repo contains everything needed to replicate an integration between Twilio Flex and Salesforce in voice IVR scenario.
 
 The illustration of the scenario is as follows:
 
