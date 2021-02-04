@@ -99,9 +99,3 @@ Second inbound call will do a data dip, and ask the customer if the call is abou
 Third inbound call will again ask about the previously created case. Click 2 (no), and after the cue, click 4 for claims related case (feel free to edit the created case details as required). A new case will be created, and customer will be connected to agent relating to the newly created case from IVR.
 
 Additionally, the Flex Agent is also able to make outbound call back to the customer (for example: if the call dropped) by using click to dial on the customer phone number on Salesforce.
-
-## Resources
-
-Recorded video of the demo: [recording link](https://drive.google.com/file/d/1OQblG6YlE6r6I45NtIEzRc5dfsqSc5ij/view?usp=sharing)
-
-Scenario slide: [slide link](https://docs.google.com/presentation/d/1W4iA7saxJiU2aAHzrc2mtk0aW9EfYJ1XFgcUEdepMFk/edit?usp=sharing)
