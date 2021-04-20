@@ -24,12 +24,9 @@ async function createCase() {
 
   // create new case parameters to send to SFDC
   let newCase = {
-
-        Subject : "Claims inquiry",
-        Status : "New",
-        Priority : "High",
-        ContactId : conId,
-        Origin : "Phone",
+        // SF field API name here
+        Subject : "",
+        // add other fields as required
     };
 
 // create new case in SFDC
